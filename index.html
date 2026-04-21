@@ -3,107 +3,128 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MITAX 2009 Full Calculator</title>
+    <title>MITAX 2009 Full Assessment Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .system-card { border-left: 4px solid #e2e8f0; transition: all 0.2s; }
-        .active-a { border-left-color: #ef4444; background-color: #fef2f2; }
-        .active-b { border-left-color: #f59e0b; background-color: #fffbeb; }
-        .active-c { border-left-color: #10b981; background-color: #f0fdf4; }
+        .domain-card { border-left: 5px solid #cbd5e1; transition: all 0.3s; }
+        .cat-a { border-left-color: #ef4444; background-color: #fef2f2; }
+        .cat-b { border-left-color: #f59e0b; background-color: #fffbeb; }
+        .cat-c { border-left-color: #10b981; background-color: #f0fdf4; }
+        .cat-de { border-left-color: #94a3b8; background-color: #f8fafc; }
+        select { background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.25rem 0.5rem; font-size: 0.875rem; width: 100%; }
+        label { font-size: 0.85rem; font-weight: 500; color: #374151; display: block; margin-bottom: 0.25rem; }
     </style>
 </head>
-<body class="bg-gray-50 pb-20">
-    <div class="max-w-4xl mx-auto p-4 md:p-8">
-        <header class="mb-8 border-b pb-4">
-            <h1 class="text-3xl font-bold text-gray-900">MITAX 2009 Digital Tool</h1>
-            <p class="text-sm text-gray-500 italic">Reference: Myositis Disease Activity Assessment Tool 2009</p>
+<body class="bg-gray-100 min-h-screen p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border">
+            <h1 class="text-3xl font-black text-slate-800 uppercase tracking-tight">MITAX 2009 Full Calculator</h1>
+            <p class="text-slate-500 text-sm mt-2">Myositis Intention to Treat Activity Index | Assessment Period: Last 4 Weeks</p>
         </header>
 
-        <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
-            <form id="mitaxForm" class="md:col-span-2 space-y-6">
-                <div class="system-card bg-white p-6 rounded-lg shadow-sm border" id="card-const">
-                    <h2 class="font-bold text-lg mb-4 flex justify-between">1. Constitutional <span id="res-const" class="text-xs uppercase px-2 py-1 bg-gray-100 rounded">Cat E</span></h2>
-                    <div class="space-y-3 text-sm">
-                        <label class="block">Pyrexia (Fever) [0-4]: <select name="const_pyr" class="w-full border rounded p-1" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></label>
-                        <label class="block">Weight loss / Fatigue [0-4]: <select name="const_other" class="w-full border rounded p-1" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
+        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
+            <div class="lg:col-span-2 space-y-6">
+                <form id="mitaxForm">
+                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-const">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h2 class="text-lg font-bold">1. Constitutional</h2>
+                            <span id="cat-const" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
+                            <div><label>Pyrexia</label><select name="c_pyr" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                            <div><label>Weight loss</label><select name="c_wt" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                            <div><label>Fatigue/Malaise</label><select name="c_fat" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="system-card bg-white p-6 rounded-lg shadow-sm border" id="card-cut">
-                    <h2 class="font-bold text-lg mb-4 flex justify-between">2. Cutaneous <span id="res-cut" class="text-xs uppercase px-2 py-1 bg-gray-100 rounded">Cat E</span></h2>
-                    <div class="space-y-3 text-sm">
-                        <label class="block">Major (Ulcer/Necrosis/Panniculitis) [0-4]: <select name="cut_maj" class="w-full border rounded p-1" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></label>
-                        <label class="block">Minor (Heliotrope/Gottron/Mechanic) [0-4]: <select name="cut_min" class="w-full border rounded p-1" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></label>
+                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-cut">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h2 class="text-lg font-bold">2. Cutaneous</h2>
+                            <span id="cat-cut" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
+                            <div><label>Major: Ulcer/Erythroderma/Necrosis</label><select name="cu_maj" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                            <div><label>Minor: Heliotrope/Gottron/Rashes</label><select name="cu_min" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                            <div class="md:col-span-2"><label>Alopecia (Focal)</label><select name="cu_alo" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        </div>
                     </div>
-                </div>
 
-                <div class="system-card bg-white p-6 rounded-lg shadow-sm border" id="card-skel">
-                    <h2 class="font-bold text-lg mb-4 flex justify-between">3. Skeletal <span id="res-skel" class="text-xs uppercase px-2 py-1 bg-gray-100 rounded">Cat E</span></h2>
-                    <select name="skel" class="w-full border rounded p-1 text-sm" onchange="calc()">
-                        <option value="0">No activity (Cat E/D)</option>
-                        <option value="9">Severe Arthritis (2-4) (Cat A)</option>
-                        <option value="3">Moderate Arthritis (2-4) or Severe (1) (Cat B)</option>
-                        <option value="1">Mild Arthritis / Arthralgia (1-4) (Cat C)</option>
-                        <option value="NA">NA</option>
-                    </select>
-                </div>
-
-                <div class="system-card bg-white p-6 rounded-lg shadow-sm border" id="card-gi">
-                    <h2 class="font-bold text-lg mb-4 flex justify-between">4. GI <span id="res-gi" class="text-xs uppercase px-2 py-1 bg-gray-100 rounded">Cat E</span></h2>
-                    <select name="gi" class="w-full border rounded p-1 text-sm" onchange="calc()">
-                        <option value="0">No activity (Cat E/D)</option>
-                        <option value="9">Severe Dysphagia/Pain (2-4) (Cat A)</option>
-                        <option value="3">Moderate Pain/Mild Dysphagia (2-4) (Cat B)</option>
-                        <option value="1">Mild Pain (1-4) (Cat C)</option>
-                        <option value="NA">NA</option>
-                    </select>
-                </div>
-
-                <div class="system-card bg-white p-6 rounded-lg shadow-sm border" id="card-pulm">
-                    <h2 class="font-bold text-lg mb-4 flex justify-between">5. Pulmonary <span id="res-pulm" class="text-xs uppercase px-2 py-1 bg-gray-100 rounded">Cat E</span></h2>
-                    <select name="pulm" class="w-full border rounded p-1 text-sm" onchange="calc()">
-                        <option value="0">No activity (Cat E/D)</option>
-                        <option value="9">Dyspnea at rest or Active ILD (Worse/New) (Cat A)</option>
-                        <option value="3">Dyspnea on exertion or Active ILD (Same) (Cat B)</option>
-                        <option value="1">Mild ILD Improvement or Dysphonia (Cat C)</option>
-                        <option value="NA">NA</option>
-                    </select>
-                </div>
-
-                <div class="system-card bg-white p-6 rounded-lg shadow-sm border" id="card-cardiac">
-                    <h2 class="font-bold text-lg mb-4 flex justify-between">6. Cardiac <span id="res-cardiac" class="text-xs uppercase px-2 py-1 bg-gray-100 rounded">Cat E</span></h2>
-                    <select name="cardiac" class="w-full border rounded p-1 text-sm" onchange="calc()">
-                        <option value="0">No activity (Cat E/D)</option>
-                        <option value="9">Myocarditis/Severe Arrhythmia (2-4) (Cat A)</option>
-                        <option value="3">Mild/Mod Arrhythmia (2-4) (Cat B)</option>
-                        <option value="1">Sinus Tachycardia (1-4) (Cat C)</option>
-                        <option value="NA">NA</option>
-                    </select>
-                </div>
-
-                <div class="system-card bg-white p-6 rounded-lg shadow-sm border" id="card-mus">
-                    <h2 class="font-bold text-lg mb-4 flex justify-between">7. Muscle <span id="res-mus" class="text-xs uppercase px-2 py-1 bg-gray-100 rounded">Cat E</span></h2>
-                    <select name="mus" class="w-full border rounded p-1 text-sm" onchange="calc()">
-                        <option value="0">No activity (Cat E/D)</option>
-                        <option value="9">Severe Muscle Inflammation (2-4) (Cat A)</option>
-                        <option value="3">Moderate Inflammation (2-4) or Severe (1) (Cat B)</option>
-                        <option value="1">Mild Inflammation / Myalgia (1-4) (Cat C)</option>
-                        <option value="NA">NA</option>
-                    </select>
-                </div>
-            </form>
-
-            <div class="md:col-span-1">
-                <div class="sticky top-8 space-y-4">
-                    <div class="bg-blue-900 text-white p-6 rounded-2xl shadow-xl text-center">
-                        <p class="text-xs opacity-70 uppercase font-bold tracking-widest mb-1">MITAX Score</p>
-                        <div id="totalScore" class="text-6xl font-black">0</div>
-                        <p class="text-[10px] mt-4 opacity-60">Sum of worst category scores for each of the 7 systems[cite: 40].</p>
+                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-skel">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h2 class="text-lg font-bold">3. Skeletal</h2>
+                            <span id="cat-skel" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
+                        </div>
+                        <div class="space-y-4">
+                            <div><label>Severe Inflammatory Polyarthritis</label><select name="sk_sev" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                            <div><label>Moderate Arthritis / Mild / Arthralgia</label><select name="sk_mod" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        </div>
                     </div>
-                    <div class="bg-white p-4 rounded-xl border text-sm shadow-sm">
-                        <p id="na-warning" class="text-red-500 font-bold hidden mb-2 text-xs">⚠️ Adjusted for NA items</p>
-                        <div class="flex justify-between"><span>Max Possible:</span> <span id="maxPossible">63</span></div>
-                        <div class="flex justify-between font-bold text-blue-700 mt-1"><span>Activity Index:</span> <span id="activityIndex">0.0%</span></div>
+
+                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-gi">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h2 class="text-lg font-bold">4. Gastrointestinal</h2>
+                            <span id="cat-gi" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label>Severe Pain / Mod-Sev Dysphagia</label><select name="gi_maj" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                            <div><label>Mild Dysphagia / Mod-Mild Pain</label><select name="gi_min" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        </div>
+                    </div>
+
+                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-pulm">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h2 class="text-lg font-bold">5. Pulmonary</h2>
+                            <span id="cat-pulm" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
+                        </div>
+                        <div class="space-y-4 text-xs italic text-gray-500 mb-2">ILD requires 2+ matching items (Dyspnea, Imaging, PFTs).</div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label>Dyspnea (Rest/Exertion)</label><select name="pu_dys" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                            <div><label>Active ILD Assessment</label><select name="pu_ild" onchange="calc()"><option value="0">None</option><option value="A">Cat A (Worse/New)</option><option value="B">Cat B (Same)</option><option value="C">Cat C (Improve)</option></select></div>
+                            <div class="md:col-span-2"><label>Dysphonia (Severity)</label><select name="pu_phonia" onchange="calc()"><option value="0">None</option><option value="2">Mod/Severe (2-4)</option><option value="1">Mild (1-4) or Mod/Sev Improvement</option></select></div>
+                        </div>
+                    </div>
+
+                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-cardiac">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h2 class="text-lg font-bold">6. Cardiovascular</h2>
+                            <span id="cat-cardiac" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label>Myocarditis / Pericarditis / Sev Arrhythmia</label><select name="cv_maj" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                            <div><label>Mild Arrhythmia / Sinus Tachycardia</label><select name="cv_min" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        </div>
+                    </div>
+
+                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-mus">
+                        <div class="flex justify-between items-center mb-4 border-b pb-2">
+                            <h2 class="text-lg font-bold">7. Muscle</h2>
+                            <span id="cat-mus" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
+                        </div>
+                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                            <div><label>Severe Muscle Inflammation</label><select name="mu_sev" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                            <div><label>Moderate/Mild Inflammation/Myalgia</label><select name="mu_mod" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class="lg:col-span-1">
+                <div class="sticky top-8 space-y-6">
+                    <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-xl text-center">
+                        <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Total MITAX Score</p>
+                        <div id="scoreTotal" class="text-7xl font-black mb-4">0</div>
+                        <div class="flex justify-between text-xs border-t border-slate-700 pt-4">
+                            <span>Max Possible: <span id="scoreMax">63</span></span>
+                            <span>Activity: <span id="scorePercent">0.0%</span></span>
+                        </div>
+                    </div>
+
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border">
+                        <h3 class="font-bold text-sm text-gray-400 uppercase mb-4 tracking-tighter">Domain Breakdown</h3>
+                        <table class="w-full text-sm">
+                            <tbody id="breakdownList" class="divide-y">
+                                </tbody>
+                        </table>
                     </div>
                 </div>
             </div>
@@ -113,67 +134,137 @@
     <script>
         function calc() {
             const fd = new FormData(document.getElementById('mitaxForm'));
-            let total = 0;
-            let maxPossible = 0;
-            let hasNA = false;
+            let totalScore = 0;
+            let assessedMax = 0;
+            const results = [];
 
-            const systems = [
-                { id: 'const', pts: getConst(fd) },
-                { id: 'cut', pts: getCut(fd) },
-                { id: 'skel', pts: getVal(fd, 'skel') },
-                { id: 'gi', pts: getVal(fd, 'gi') },
-                { id: 'pulm', pts: getVal(fd, 'pulm') },
-                { id: 'cardiac', pts: getVal(fd, 'cardiac') },
-                { id: 'mus', pts: getVal(fd, 'mus') }
-            ];
+            // 1. Constitutional 
+            const c_pyr = fd.get('c_pyr');
+            const c_wt = fd.get('c_wt');
+            const c_fat = fd.get('c_fat');
+            let c_pts = 0, c_cat = 'E';
+            if (c_pyr === 'NA') c_pts = 'NA';
+            else {
+                if (c_pyr >= 2 && (c_wt >= 1 && c_fat >= 1)) { c_cat = 'A'; c_pts = 9; }
+                else if (c_pyr >= 2 || c_wt >= 2 || c_fat >= 2) { c_cat = 'B'; c_pts = 3; }
+                else if (c_pyr == 1 || c_wt == 1 || c_fat == 1) { c_cat = 'C'; c_pts = 1; }
+                else { c_cat = 'E'; c_pts = 0; }
+            }
+            results.push({ id: 'const', name: 'Constitutional', cat: c_cat, pts: c_pts });
 
-            systems.forEach(s => {
-                const card = document.getElementById('card-' + s.id);
-                const res = document.getElementById('res-' + s.id);
-                if (s.pts === 'NA') {
-                    hasNA = true;
-                    res.innerText = 'NA';
-                    card.className = 'system-card bg-white p-6 rounded-lg shadow-sm border opacity-50';
+            // 2. Cutaneous 
+            const cu_maj = fd.get('cu_maj');
+            const cu_min = fd.get('cu_min');
+            const cu_alo = fd.get('cu_alo');
+            let cu_pts = 0, cu_cat = 'E';
+            if (cu_maj === 'NA') cu_pts = 'NA';
+            else {
+                if (cu_maj >= 2) { cu_cat = 'A'; cu_pts = 9; }
+                else if (cu_maj == 1 || cu_min >= 2) { cu_cat = 'B'; cu_pts = 3; }
+                else if (cu_min == 1 || cu_alo >= 1) { cu_cat = 'C'; cu_pts = 1; }
+                else { cu_cat = 'E'; cu_pts = 0; }
+            }
+            results.push({ id: 'cut', name: 'Cutaneous', cat: cu_cat, pts: cu_pts });
+
+            // 3. Skeletal 
+            const sk_s = fd.get('sk_sev');
+            const sk_m = fd.get('sk_mod');
+            let sk_pts = 0, sk_cat = 'E';
+            if (sk_s === 'NA') sk_pts = 'NA';
+            else {
+                if (sk_s >= 2) { sk_cat = 'A'; sk_pts = 9; }
+                else if (sk_s == 1 || sk_m >= 2) { sk_cat = 'B'; sk_pts = 3; }
+                else if (sk_m == 1) { sk_cat = 'C'; sk_pts = 1; }
+                else { sk_cat = 'E'; sk_pts = 0; }
+            }
+            results.push({ id: 'skel', name: 'Skeletal', cat: sk_cat, pts: sk_pts });
+
+            // 4. GI 
+            const gi_ma = fd.get('gi_maj');
+            const gi_mi = fd.get('gi_min');
+            let gi_pts = 0, gi_cat = 'E';
+            if (gi_ma === 'NA') gi_pts = 'NA';
+            else {
+                if (gi_ma >= 2) { gi_cat = 'A'; gi_pts = 9; }
+                else if (gi_ma == 1 || gi_mi >= 2) { gi_cat = 'B'; gi_pts = 3; }
+                else if (gi_mi == 1) { gi_cat = 'C'; gi_pts = 1; }
+                else { gi_cat = 'E'; gi_pts = 0; }
+            }
+            results.push({ id: 'gi', name: 'Gastrointestinal', cat: gi_cat, pts: gi_pts });
+
+            // 5. Pulmonary 
+            const pu_d = fd.get('pu_dys');
+            const pu_i = fd.get('pu_ild');
+            const pu_p = fd.get('pu_phonia');
+            let pu_pts = 0, pu_cat = 'E';
+            if (pu_d === 'NA') pu_pts = 'NA';
+            else {
+                if (pu_i === 'A' || pu_d >= 2) { pu_cat = 'A'; pu_pts = 9; }
+                else if (pu_i === 'B' || pu_d == 1 || pu_p == 2) { pu_cat = 'B'; pu_pts = 3; }
+                else if (pu_i === 'C' || pu_p == 1) { pu_cat = 'C'; pu_pts = 1; }
+                else { pu_cat = 'E'; pu_pts = 0; }
+            }
+            results.push({ id: 'pulm', name: 'Pulmonary', cat: pu_cat, pts: pu_pts });
+
+            // 6. Cardiac 
+            const cv_ma = fd.get('cv_maj');
+            const cv_mi = fd.get('cv_min');
+            let cv_pts = 0, cv_cat = 'E';
+            if (cv_ma === 'NA') cv_pts = 'NA';
+            else {
+                if (cv_ma >= 2) { cv_cat = 'A'; cv_pts = 9; }
+                else if (cv_ma == 1 || cv_mi >= 2) { cv_cat = 'B'; cv_pts = 3; }
+                else if (cv_mi == 1) { cv_cat = 'C'; cv_pts = 1; }
+                else { cv_cat = 'E'; cv_pts = 0; }
+            }
+            results.push({ id: 'cardiac', name: 'Cardiovascular', cat: cv_cat, pts: cv_pts });
+
+            // 7. Muscle 
+            const mu_s = fd.get('mu_sev');
+            const mu_m = fd.get('mu_mod');
+            let mu_pts = 0, mu_cat = 'E';
+            if (mu_s === 'NA') mu_pts = 'NA';
+            else {
+                if (mu_s >= 2) { mu_cat = 'A'; mu_pts = 9; }
+                else if (mu_s == 1 || mu_m >= 2) { mu_cat = 'B'; mu_pts = 3; }
+                else if (mu_m == 1) { mu_cat = 'C'; mu_pts = 1; }
+                else { mu_cat = 'E'; mu_pts = 0; }
+            }
+            results.push({ id: 'mus', name: 'Muscle', cat: mu_cat, pts: mu_pts });
+
+            // UI Update & Summation
+            const listEl = document.getElementById('breakdownList');
+            listEl.innerHTML = '';
+            
+            results.forEach(res => {
+                const card = document.getElementById('card-' + res.id);
+                const badge = document.getElementById('cat-' + res.id);
+                
+                if (res.pts === 'NA') {
+                    card.classList.add('opacity-40');
+                    badge.innerText = 'NA';
+                    badge.className = 'px-2 py-1 rounded text-xs font-bold bg-gray-200';
                 } else {
-                    total += s.pts;
-                    maxPossible += 9;
-                    res.innerText = s.pts === 9 ? 'Cat A' : s.pts === 3 ? 'Cat B' : s.pts === 1 ? 'Cat C' : 'Cat E/D';
-                    card.className = 'system-card p-6 rounded-lg shadow-sm border ' + (s.pts === 9 ? 'active-a' : s.pts === 3 ? 'active-b' : s.pts === 1 ? 'active-c' : '');
+                    card.classList.remove('opacity-40');
+                    totalScore += res.pts;
+                    assessedMax += 9;
+                    badge.innerText = 'Category ' + res.cat;
+                    
+                    card.className = 'domain-card bg-white p-5 rounded-xl shadow-sm mb-6 ' + 
+                        (res.cat === 'A' ? 'cat-a' : res.cat === 'B' ? 'cat-b' : res.cat === 'C' ? 'cat-c' : 'cat-de');
+                    badge.className = 'px-2 py-1 rounded text-xs font-bold ' + 
+                        (res.cat === 'A' ? 'bg-red-500 text-white' : res.cat === 'B' ? 'bg-amber-500 text-white' : 'bg-emerald-500 text-white');
                 }
+
+                listEl.innerHTML += `<tr class="h-10"><td>${res.name}</td><td class="text-right font-mono font-bold">${res.pts === 'NA' ? 'NA' : res.pts}</td></tr>`;
             });
 
-            document.getElementById('totalScore').innerText = total;
-            document.getElementById('maxPossible').innerText = maxPossible;
-            document.getElementById('activityIndex').innerText = maxPossible > 0 ? (total / maxPossible * 100).toFixed(1) + '%' : '0.0%';
-            document.getElementById('na-warning').classList.toggle('hidden', !hasNA);
+            document.getElementById('scoreTotal').innerText = totalScore;
+            document.getElementById('scoreMax').innerText = assessedMax;
+            document.getElementById('scorePercent').innerText = assessedMax > 0 ? ((totalScore / assessedMax) * 100).toFixed(1) + '%' : '0.0%';
         }
-
-        function getConst(fd) {
-            const p = fd.get('const_pyr');
-            if (p === 'NA') return 'NA';
-            const o = parseInt(fd.get('const_other'));
-            if (p >= 2 && o >= 2) return 9; // Simplified A [cite: 43]
-            if (p >= 2 || o >= 2) return 3; // Simplified B [cite: 43]
-            if (p == 1 || o == 1) return 1; // C
-            return 0;
-        }
-
-        function getCut(fd) {
-            const maj = fd.get('cut_maj');
-            if (maj === 'NA') return 'NA';
-            const min = parseInt(fd.get('cut_min'));
-            if (maj >= 2) return 9; // Cat A [cite: 43]
-            if (maj == 1 || min >= 2) return 3; // Cat B [cite: 43]
-            if (min == 1) return 1; // Cat C
-            return 0;
-        }
-
-        function getVal(fd, key) {
-            const v = fd.get(key);
-            return v === 'NA' ? 'NA' : parseInt(v);
-        }
-
-        calc();
+        
+        window.onload = calc;
     </script>
 </body>
 </html>
