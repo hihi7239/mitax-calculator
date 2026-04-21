@@ -3,128 +3,120 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MITAX 2009 Full Assessment Tool</title>
+    <title>MDAAT & MITAX Integrated Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .domain-card { border-left: 5px solid #cbd5e1; transition: all 0.3s; }
-        .cat-a { border-left-color: #ef4444; background-color: #fef2f2; }
-        .cat-b { border-left-color: #f59e0b; background-color: #fffbeb; }
-        .cat-c { border-left-color: #10b981; background-color: #f0fdf4; }
-        .cat-de { border-left-color: #94a3b8; background-color: #f8fafc; }
-        select { background-color: #ffffff; border: 1px solid #d1d5db; border-radius: 0.375rem; padding: 0.25rem 0.5rem; font-size: 0.875rem; width: 100%; }
-        label { font-size: 0.85rem; font-weight: 500; color: #374151; display: block; margin-bottom: 0.25rem; }
+        .vas-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #e2e8f0; border-radius: 5px; outline: none; }
+        .vas-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: #1e293b; cursor: pointer; border-radius: 50%; border: 2px solid #fff; }
+        .domain-section { border-left: 6px solid #cbd5e1; padding-left: 1.5rem; margin-bottom: 2.5rem; }
+        .cat-a { border-left-color: #ef4444; } .cat-b { border-left-color: #f59e0b; } .cat-c { border-left-color: #10b981; }
+        .item-row { display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #f1f5f9; }
+        .item-name { font-size: 0.85rem; color: #475569; flex: 1; }
+        select { font-size: 0.75rem; padding: 0.2rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; width: 80px; }
     </style>
 </head>
-<body class="bg-gray-100 min-h-screen p-4 md:p-8">
-    <div class="max-w-6xl mx-auto">
-        <header class="mb-8 text-center bg-white p-6 rounded-2xl shadow-sm border">
-            <h1 class="text-3xl font-black text-slate-800 uppercase tracking-tight">MITAX 2009 Full Calculator</h1>
-            <p class="text-slate-500 text-sm mt-2">Myositis Intention to Treat Activity Index | Assessment Period: Last 4 Weeks</p>
+<body class="bg-slate-50 text-slate-900 min-h-screen pb-20">
+    <div class="max-w-6xl mx-auto p-4 md:p-8">
+        <header class="mb-10 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
+            <h1 class="text-2xl font-black text-slate-800 uppercase italic">MDAAT 2005 / MITAX 2009 Integration</h1>
+            <p class="text-slate-500 text-xs mt-1">Status: Assessment for the previous 4 weeks [cite: 49]</p>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-3 gap-8">
-            <div class="lg:col-span-2 space-y-6">
-                <form id="mitaxForm">
-                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-const">
-                        <div class="flex justify-between items-center mb-4 border-b pb-2">
-                            <h2 class="text-lg font-bold">1. Constitutional</h2>
-                            <span id="cat-const" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
+        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <form id="mdaatForm" class="lg:col-span-8 space-y-10">
+                
+                <div class="domain-section bg-white p-6 rounded-2xl shadow-sm" id="sec-const">
+                    <div class="flex justify-between items-start mb-6">
+                        <div>
+                            <h2 class="text-xl font-bold">1. Constitutional</h2>
+                            <p class="text-[10px] text-slate-400">Items 1-3 </p>
                         </div>
-                        <div class="grid grid-cols-1 md:grid-cols-3 gap-4">
-                            <div><label>Pyrexia</label><select name="c_pyr" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
-                            <div><label>Weight loss</label><select name="c_wt" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                            <div><label>Fatigue/Malaise</label><select name="c_fat" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        </div>
-                    </div>
-
-                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-cut">
-                        <div class="flex justify-between items-center mb-4 border-b pb-2">
-                            <h2 class="text-lg font-bold">2. Cutaneous</h2>
-                            <span id="cat-cut" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-x-8 gap-y-4">
-                            <div><label>Major: Ulcer/Erythroderma/Necrosis</label><select name="cu_maj" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
-                            <div><label>Minor: Heliotrope/Gottron/Rashes</label><select name="cu_min" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                            <div class="md:col-span-2"><label>Alopecia (Focal)</label><select name="cu_alo" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="text-right">
+                            <span id="mitax-const" class="text-xs font-black px-2 py-1 rounded bg-slate-100 uppercase">Cat E</span>
                         </div>
                     </div>
-
-                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-skel">
-                        <div class="flex justify-between items-center mb-4 border-b pb-2">
-                            <h2 class="text-lg font-bold">3. Skeletal</h2>
-                            <span id="cat-skel" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
-                        </div>
-                        <div class="space-y-4">
-                            <div><label>Severe Inflammatory Polyarthritis</label><select name="sk_sev" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
-                            <div><label>Moderate Arthritis / Mild / Arthralgia</label><select name="sk_mod" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        </div>
+                    <div class="mb-6">
+                        <label class="text-[10px] uppercase font-bold text-slate-400">VAS Score (0-10cm) [cite: 59]</label>
+                        <input type="range" name="vas_const" min="0" max="10" step="0.1" value="0" class="vas-slider mt-2" oninput="updateVasDisplay(this)">
+                        <div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="val-vas_const">0.0 cm</span><span>Maximum</span></div>
                     </div>
-
-                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-gi">
-                        <div class="flex justify-between items-center mb-4 border-b pb-2">
-                            <h2 class="text-lg font-bold">4. Gastrointestinal</h2>
-                            <span id="cat-gi" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label>Severe Pain / Mod-Sev Dysphagia</label><select name="gi_maj" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
-                            <div><label>Mild Dysphagia / Mod-Mild Pain</label><select name="gi_min" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        </div>
+                    <div class="space-y-1">
+                        <div class="item-row"><span class="item-name">1. Pyrexia (Fever >38°C)</span><select name="i1" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                        <div class="item-row"><span class="item-name">2. Weight loss (unintentional >5%)</span><select name="i2" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">3. Fatigue / Malaise / Lethargy</span><select name="i3" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
                     </div>
+                </div>
 
-                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-pulm">
-                        <div class="flex justify-between items-center mb-4 border-b pb-2">
-                            <h2 class="text-lg font-bold">5. Pulmonary</h2>
-                            <span id="cat-pulm" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
-                        </div>
-                        <div class="space-y-4 text-xs italic text-gray-500 mb-2">ILD requires 2+ matching items (Dyspnea, Imaging, PFTs).</div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label>Dyspnea (Rest/Exertion)</label><select name="pu_dys" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
-                            <div><label>Active ILD Assessment</label><select name="pu_ild" onchange="calc()"><option value="0">None</option><option value="A">Cat A (Worse/New)</option><option value="B">Cat B (Same)</option><option value="C">Cat C (Improve)</option></select></div>
-                            <div class="md:col-span-2"><label>Dysphonia (Severity)</label><select name="pu_phonia" onchange="calc()"><option value="0">None</option><option value="2">Mod/Severe (2-4)</option><option value="1">Mild (1-4) or Mod/Sev Improvement</option></select></div>
-                        </div>
+                <div class="domain-section bg-white p-6 rounded-2xl shadow-sm" id="sec-cut">
+                    <div class="flex justify-between items-start mb-6">
+                        <div><h2 class="text-xl font-bold">2. Cutaneous</h2><p class="text-[10px] text-slate-400">Items 4-12 </p></div>
+                        <span id="mitax-cut" class="text-xs font-black px-2 py-1 rounded bg-slate-100 uppercase">Cat E</span>
                     </div>
-
-                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-cardiac">
-                        <div class="flex justify-between items-center mb-4 border-b pb-2">
-                            <h2 class="text-lg font-bold">6. Cardiovascular</h2>
-                            <span id="cat-cardiac" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label>Myocarditis / Pericarditis / Sev Arrhythmia</label><select name="cv_maj" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
-                            <div><label>Mild Arrhythmia / Sinus Tachycardia</label><select name="cv_min" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        </div>
+                    <div class="mb-6">
+                        <label class="text-[10px] uppercase font-bold text-slate-400 text-center block">VAS Score (0-10cm)</label>
+                        <input type="range" name="vas_cut" min="0" max="10" step="0.1" value="0" class="vas-slider mt-2" oninput="updateVasDisplay(this)">
+                        <div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="val-vas_cut">0.0 cm</span><span>Max</span></div>
                     </div>
-
-                    <div class="domain-card bg-white p-5 rounded-xl shadow-sm mb-6" id="card-mus">
-                        <div class="flex justify-between items-center mb-4 border-b pb-2">
-                            <h2 class="text-lg font-bold">7. Muscle</h2>
-                            <span id="cat-mus" class="px-2 py-1 rounded text-xs font-bold bg-gray-200">Category E</span>
-                        </div>
-                        <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                            <div><label>Severe Muscle Inflammation</label><select name="mu_sev" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
-                            <div><label>Moderate/Mild Inflammation/Myalgia</label><select name="mu_mod" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        </div>
+                    <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
+                        <div class="item-row"><span class="item-name">4. Cutaneous ulceration</span><select name="i4" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                        <div class="item-row"><span class="item-name">5. Erythroderma</span><select name="i5" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">6. Panniculitis</span><select name="i6" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">7a. Rashes w/ secondary changes</span><select name="i7a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">7b. Rashes w/o secondary changes</span><select name="i7b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">8. Heliotrope rash</span><select name="i8" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">9. Gottron's papules/sign</span><select name="i9" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">11a. Alopecia (Diffuse)</span><select name="i11a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">11b. Alopecia (Focal)</span><select name="i11b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">12. Mechanic's hands</span><select name="i12" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
                     </div>
-                </form>
-            </div>
+                </div>
 
-            <div class="lg:col-span-1">
+                <div class="domain-section bg-white p-6 rounded-2xl shadow-sm border-slate-900 border-l-8" id="sec-mus">
+                    <div class="flex justify-between items-start mb-6">
+                        <div><h2 class="text-xl font-bold italic">7. Muscle</h2><p class="text-[10px] text-slate-400">Items 25-26 [cite: 154-160]</p></div>
+                        <span id="mitax-mus" class="text-xs font-black px-2 py-1 rounded bg-slate-100 uppercase">Cat E</span>
+                    </div>
+                    <div class="mb-6 bg-slate-50 p-4 rounded-xl">
+                        <label class="text-[10px] uppercase font-bold text-slate-400 block mb-2">Muscle Global Assessment (VAS)</label>
+                        <input type="range" name="vas_mus" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="updateVasDisplay(this)">
+                        <div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>No activity</span><span id="val-vas_mus">0.0 cm</span><span>Max activity</span></div>
+                    </div>
+                    <div class="space-y-1">
+                        <div class="item-row"><span class="item-name">25a. Severe muscle inflammation</span><select name="i25a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                        <div class="item-row"><span class="item-name">25b. Moderate muscle inflammation</span><select name="i25b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">25c. Mild muscle inflammation</span><select name="i25c" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-name">26. Myalgia</span><select name="i26" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    </div>
+                </div>
+
+                <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-[10px] text-yellow-700">
+                    * 이 계산기는 MDAAT 2005 버전의 모든 항목을 기반으로 하며, MITAX 2009의 시스템별 가중치(9, 3, 1, 0)를 사용하여 요약 점수를 도출합니다. [cite: 38, 43-44]
+                </div>
+            </form>
+
+            <div class="lg:col-span-4">
                 <div class="sticky top-8 space-y-6">
-                    <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-xl text-center">
-                        <p class="text-xs font-bold uppercase tracking-widest text-slate-400 mb-2">Total MITAX Score</p>
-                        <div id="scoreTotal" class="text-7xl font-black mb-4">0</div>
-                        <div class="flex justify-between text-xs border-t border-slate-700 pt-4">
-                            <span>Max Possible: <span id="scoreMax">63</span></span>
-                            <span>Activity: <span id="scorePercent">0.0%</span></span>
+                    <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl overflow-hidden relative">
+                        <div class="relative z-10">
+                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Total MITAX Score</h3>
+                            <div id="totalScore" class="text-7xl font-black italic">0</div>
+                            <div class="mt-4 pt-4 border-t border-slate-700 flex justify-between items-end">
+                                <div>
+                                    <p class="text-[10px] text-slate-500 uppercase">Activity Level</p>
+                                    <p id="activityLevel" class="text-sm font-bold text-blue-400">Inactive</p>
+                                </div>
+                                <div class="text-right">
+                                    <p class="text-[10px] text-slate-500 uppercase">Max Possible</p>
+                                    <p id="maxPossible" class="text-sm font-bold">63</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
 
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border">
-                        <h3 class="font-bold text-sm text-gray-400 uppercase mb-4 tracking-tighter">Domain Breakdown</h3>
-                        <table class="w-full text-sm">
-                            <tbody id="breakdownList" class="divide-y">
-                                </tbody>
-                        </table>
+                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
+                        <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">MITAX Domain Summary</h4>
+                        <ul id="mitaxSummary" class="space-y-3 text-sm">
+                            </ul>
                     </div>
                 </div>
             </div>
@@ -132,139 +124,80 @@
     </div>
 
     <script>
-        function calc() {
-            const fd = new FormData(document.getElementById('mitaxForm'));
-            let totalScore = 0;
-            let assessedMax = 0;
-            const results = [];
-
-            // 1. Constitutional 
-            const c_pyr = fd.get('c_pyr');
-            const c_wt = fd.get('c_wt');
-            const c_fat = fd.get('c_fat');
-            let c_pts = 0, c_cat = 'E';
-            if (c_pyr === 'NA') c_pts = 'NA';
-            else {
-                if (c_pyr >= 2 && (c_wt >= 1 && c_fat >= 1)) { c_cat = 'A'; c_pts = 9; }
-                else if (c_pyr >= 2 || c_wt >= 2 || c_fat >= 2) { c_cat = 'B'; c_pts = 3; }
-                else if (c_pyr == 1 || c_wt == 1 || c_fat == 1) { c_cat = 'C'; c_pts = 1; }
-                else { c_cat = 'E'; c_pts = 0; }
-            }
-            results.push({ id: 'const', name: 'Constitutional', cat: c_cat, pts: c_pts });
-
-            // 2. Cutaneous 
-            const cu_maj = fd.get('cu_maj');
-            const cu_min = fd.get('cu_min');
-            const cu_alo = fd.get('cu_alo');
-            let cu_pts = 0, cu_cat = 'E';
-            if (cu_maj === 'NA') cu_pts = 'NA';
-            else {
-                if (cu_maj >= 2) { cu_cat = 'A'; cu_pts = 9; }
-                else if (cu_maj == 1 || cu_min >= 2) { cu_cat = 'B'; cu_pts = 3; }
-                else if (cu_min == 1 || cu_alo >= 1) { cu_cat = 'C'; cu_pts = 1; }
-                else { cu_cat = 'E'; cu_pts = 0; }
-            }
-            results.push({ id: 'cut', name: 'Cutaneous', cat: cu_cat, pts: cu_pts });
-
-            // 3. Skeletal 
-            const sk_s = fd.get('sk_sev');
-            const sk_m = fd.get('sk_mod');
-            let sk_pts = 0, sk_cat = 'E';
-            if (sk_s === 'NA') sk_pts = 'NA';
-            else {
-                if (sk_s >= 2) { sk_cat = 'A'; sk_pts = 9; }
-                else if (sk_s == 1 || sk_m >= 2) { sk_cat = 'B'; sk_pts = 3; }
-                else if (sk_m == 1) { sk_cat = 'C'; sk_pts = 1; }
-                else { sk_cat = 'E'; sk_pts = 0; }
-            }
-            results.push({ id: 'skel', name: 'Skeletal', cat: sk_cat, pts: sk_pts });
-
-            // 4. GI 
-            const gi_ma = fd.get('gi_maj');
-            const gi_mi = fd.get('gi_min');
-            let gi_pts = 0, gi_cat = 'E';
-            if (gi_ma === 'NA') gi_pts = 'NA';
-            else {
-                if (gi_ma >= 2) { gi_cat = 'A'; gi_pts = 9; }
-                else if (gi_ma == 1 || gi_mi >= 2) { gi_cat = 'B'; gi_pts = 3; }
-                else if (gi_mi == 1) { gi_cat = 'C'; gi_pts = 1; }
-                else { gi_cat = 'E'; gi_pts = 0; }
-            }
-            results.push({ id: 'gi', name: 'Gastrointestinal', cat: gi_cat, pts: gi_pts });
-
-            // 5. Pulmonary 
-            const pu_d = fd.get('pu_dys');
-            const pu_i = fd.get('pu_ild');
-            const pu_p = fd.get('pu_phonia');
-            let pu_pts = 0, pu_cat = 'E';
-            if (pu_d === 'NA') pu_pts = 'NA';
-            else {
-                if (pu_i === 'A' || pu_d >= 2) { pu_cat = 'A'; pu_pts = 9; }
-                else if (pu_i === 'B' || pu_d == 1 || pu_p == 2) { pu_cat = 'B'; pu_pts = 3; }
-                else if (pu_i === 'C' || pu_p == 1) { pu_cat = 'C'; pu_pts = 1; }
-                else { pu_cat = 'E'; pu_pts = 0; }
-            }
-            results.push({ id: 'pulm', name: 'Pulmonary', cat: pu_cat, pts: pu_pts });
-
-            // 6. Cardiac 
-            const cv_ma = fd.get('cv_maj');
-            const cv_mi = fd.get('cv_min');
-            let cv_pts = 0, cv_cat = 'E';
-            if (cv_ma === 'NA') cv_pts = 'NA';
-            else {
-                if (cv_ma >= 2) { cv_cat = 'A'; cv_pts = 9; }
-                else if (cv_ma == 1 || cv_mi >= 2) { cv_cat = 'B'; cv_pts = 3; }
-                else if (cv_mi == 1) { cv_cat = 'C'; cv_pts = 1; }
-                else { cv_cat = 'E'; cv_pts = 0; }
-            }
-            results.push({ id: 'cardiac', name: 'Cardiovascular', cat: cv_cat, pts: cv_pts });
-
-            // 7. Muscle 
-            const mu_s = fd.get('mu_sev');
-            const mu_m = fd.get('mu_mod');
-            let mu_pts = 0, mu_cat = 'E';
-            if (mu_s === 'NA') mu_pts = 'NA';
-            else {
-                if (mu_s >= 2) { mu_cat = 'A'; mu_pts = 9; }
-                else if (mu_s == 1 || mu_m >= 2) { mu_cat = 'B'; mu_pts = 3; }
-                else if (mu_m == 1) { mu_cat = 'C'; mu_pts = 1; }
-                else { mu_cat = 'E'; mu_pts = 0; }
-            }
-            results.push({ id: 'mus', name: 'Muscle', cat: mu_cat, pts: mu_pts });
-
-            // UI Update & Summation
-            const listEl = document.getElementById('breakdownList');
-            listEl.innerHTML = '';
-            
-            results.forEach(res => {
-                const card = document.getElementById('card-' + res.id);
-                const badge = document.getElementById('cat-' + res.id);
-                
-                if (res.pts === 'NA') {
-                    card.classList.add('opacity-40');
-                    badge.innerText = 'NA';
-                    badge.className = 'px-2 py-1 rounded text-xs font-bold bg-gray-200';
-                } else {
-                    card.classList.remove('opacity-40');
-                    totalScore += res.pts;
-                    assessedMax += 9;
-                    badge.innerText = 'Category ' + res.cat;
-                    
-                    card.className = 'domain-card bg-white p-5 rounded-xl shadow-sm mb-6 ' + 
-                        (res.cat === 'A' ? 'cat-a' : res.cat === 'B' ? 'cat-b' : res.cat === 'C' ? 'cat-c' : 'cat-de');
-                    badge.className = 'px-2 py-1 rounded text-xs font-bold ' + 
-                        (res.cat === 'A' ? 'bg-red-500 text-white' : res.cat === 'B' ? 'bg-amber-500 text-white' : 'bg-emerald-500 text-white');
-                }
-
-                listEl.innerHTML += `<tr class="h-10"><td>${res.name}</td><td class="text-right font-mono font-bold">${res.pts === 'NA' ? 'NA' : res.pts}</td></tr>`;
-            });
-
-            document.getElementById('scoreTotal').innerText = totalScore;
-            document.getElementById('scoreMax').innerText = assessedMax;
-            document.getElementById('scorePercent').innerText = assessedMax > 0 ? ((totalScore / assessedMax) * 100).toFixed(1) + '%' : '0.0%';
+        function updateVasDisplay(el) {
+            document.getElementById('val-' + el.name).innerText = parseFloat(el.value).toFixed(1) + ' cm';
         }
-        
-        window.onload = calc;
+
+        function calc() {
+            const fd = new FormData(document.getElementById('mdaatForm'));
+            let totalMitax = 0;
+            let assessedCount = 0;
+            const domainResults = [];
+
+            // --- 1. Constitutional Logic  ---
+            const i1 = fd.get('i1'); 
+            const i2 = fd.get('i2'); 
+            const i3 = fd.get('i3');
+            let c_pts = 0, c_cat = 'E';
+            if(i1 !== 'NA') {
+                assessedCount++;
+                if(i1 >= 2 && (i2 >= 1 && i3 >= 1)) { c_cat = 'A'; c_pts = 9; }
+                else if(i1 >= 2 || i2 >= 2 || i3 >= 2) { c_cat = 'B'; c_pts = 3; }
+                else if(i1 == 1 || i2 == 1 || i3 == 1) { c_cat = 'C'; c_pts = 1; }
+                totalMitax += c_pts;
+            } else c_pts = 'NA';
+            domainResults.push({name: 'Constitutional', cat: c_cat, pts: c_pts, id: 'const'});
+
+            // --- 2. Cutaneous Logic  ---
+            const cu_maj = [fd.get('i4'), fd.get('i5'), fd.get('i6'), fd.get('i7a')];
+            const cu_min = [fd.get('i7b'), fd.get('i8'), fd.get('i9'), fd.get('i11a'), fd.get('i12')];
+            const cu_foc = fd.get('i11b');
+            let cu_pts = 0, cu_cat = 'E';
+            if(fd.get('i4') !== 'NA') {
+                assessedCount++;
+                if(cu_maj.some(v => v >= 2)) { cu_cat = 'A'; cu_pts = 9; }
+                else if(cu_maj.some(v => v == 1) || cu_min.some(v => v >= 2)) { cu_cat = 'B'; cu_pts = 3; }
+                else if(cu_min.some(v => v == 1) || cu_foc >= 1) { cu_cat = 'C'; cu_pts = 1; }
+                totalMitax += cu_pts;
+            } else cu_pts = 'NA';
+            domainResults.push({name: 'Cutaneous', cat: cu_cat, pts: cu_pts, id: 'cut'});
+
+            // --- 7. Muscle Logic  ---
+            const m_sev = fd.get('i25a');
+            const m_mod = fd.get('i25b');
+            const m_mid = fd.get('i25c');
+            const m_alg = fd.get('i26');
+            let mu_pts = 0, mu_cat = 'E';
+            if(m_sev !== 'NA') {
+                assessedCount++;
+                if(m_sev >= 2) { mu_cat = 'A'; mu_pts = 9; }
+                else if(m_sev == 1 || m_mod >= 2) { mu_cat = 'B'; mu_pts = 3; }
+                else if(m_mod == 1 || m_mid >= 1 || m_alg >= 1) { mu_cat = 'C'; mu_pts = 1; }
+                totalMitax += mu_pts;
+            } else mu_pts = 'NA';
+            domainResults.push({name: 'Muscle', cat: mu_cat, pts: mu_pts, id: 'mus'});
+
+            // Update UI
+            document.getElementById('totalScore').innerText = totalMitax;
+            document.getElementById('maxPossible').innerText = assessedCount * 9;
+            document.getElementById('activityLevel').innerText = totalMitax >= 9 ? 'Highly Active' : (totalMitax > 0 ? 'Active' : 'Inactive');
+            
+            const summaryList = document.getElementById('mitaxSummary');
+            summaryList.innerHTML = '';
+            domainResults.forEach(res => {
+                const badge = document.getElementById('mitax-' + res.id);
+                const sec = document.getElementById('sec-' + res.id);
+                badge.innerText = 'Cat ' + res.cat + (res.pts === 'NA' ? '' : ` (${res.pts}p)`);
+                sec.className = `domain-section bg-white p-6 rounded-2xl shadow-sm cat-${res.cat.toLowerCase()}`;
+                
+                summaryList.innerHTML += `<li class="flex justify-between items-center">
+                    <span class="text-slate-600">${res.name}</span>
+                    <span class="font-bold ${res.pts >= 9 ? 'text-red-500' : 'text-slate-800'}">Cat ${res.cat}</span>
+                </li>`;
+            });
+        }
+
+        calc();
     </script>
 </body>
 </html>
