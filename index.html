@@ -3,201 +3,257 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>MDAAT & MITAX Integrated Tool</title>
+    <title>MDAAT 2005 & MITAX 2009 Professional Tool</title>
     <script src="https://cdn.tailwindcss.com"></script>
     <style>
-        .vas-slider { -webkit-appearance: none; width: 100%; height: 8px; background: #e2e8f0; border-radius: 5px; outline: none; }
-        .vas-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 18px; height: 18px; background: #1e293b; cursor: pointer; border-radius: 50%; border: 2px solid #fff; }
-        .domain-section { border-left: 6px solid #cbd5e1; padding-left: 1.5rem; margin-bottom: 2.5rem; }
-        .cat-a { border-left-color: #ef4444; } .cat-b { border-left-color: #f59e0b; } .cat-c { border-left-color: #10b981; }
-        .item-row { display: flex; align-items: center; justify-content: space-between; padding: 0.4rem 0; border-bottom: 1px solid #f1f5f9; }
-        .item-name { font-size: 0.85rem; color: #475569; flex: 1; }
-        select { font-size: 0.75rem; padding: 0.2rem 0.4rem; border: 1px solid #cbd5e1; border-radius: 4px; width: 80px; }
+        .vas-slider { -webkit-appearance: none; width: 100%; height: 6px; background: #cbd5e1; border-radius: 5px; outline: none; margin-top: 8px; }
+        .vas-slider::-webkit-slider-thumb { -webkit-appearance: none; appearance: none; width: 16px; height: 16px; background: #0f172a; cursor: pointer; border-radius: 50%; border: 2px solid #fff; }
+        .domain-card { border-left: 6px solid #e2e8f0; margin-bottom: 2rem; background: white; padding: 1.5rem; border-radius: 1rem; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        .cat-a { border-left-color: #ef4444; } .cat-b { border-left-color: #f59e0b; } .cat-c { border-left-color: #10b981; } .cat-de { border-left-color: #94a3b8; }
+        .item-row { display: flex; justify-content: space-between; align-items: center; padding: 0.5rem 0; border-bottom: 1px solid #f8fafc; }
+        .item-label { font-size: 0.85rem; color: #475569; flex: 1; padding-right: 1rem; }
+        select { width: 90px; font-size: 0.75rem; border: 1px solid #e2e8f0; border-radius: 0.375rem; padding: 0.2rem; }
+        .vas-label { font-size: 0.7rem; font-weight: 700; color: #64748b; text-transform: uppercase; letter-spacing: 0.05em; }
     </style>
 </head>
-<body class="bg-slate-50 text-slate-900 min-h-screen pb-20">
-    <div class="max-w-6xl mx-auto p-4 md:p-8">
-        <header class="mb-10 bg-white p-6 rounded-3xl shadow-sm border border-slate-200">
-            <h1 class="text-2xl font-black text-slate-800 uppercase italic">MDAAT 2005 / MITAX 2009 Integration</h1>
-            <p class="text-slate-500 text-xs mt-1">Status: Assessment for the previous 4 weeks [cite: 49]</p>
+<body class="bg-slate-50 text-slate-900 pb-20 p-4 md:p-8">
+    <div class="max-w-6xl mx-auto">
+        <header class="mb-10 flex flex-col md:flex-row md:items-end md:justify-between border-b pb-6">
+            <div>
+                <h1 class="text-3xl font-black text-slate-800 italic tracking-tighter">MDAAT 2005 / MITAX 2009</h1>
+                <p class="text-slate-500 text-sm">Professional Myositis Disease Activity Assessment Tool</p>
+            </div>
+            <div class="mt-4 md:mt-0 text-[10px] text-slate-400 font-mono">
+                [0: None | 1: Imp | 2: Same | 3: Worse | 4: New | NA]
+            </div>
         </header>
 
-        <div class="grid grid-cols-1 lg:grid-cols-12 gap-8">
-            <form id="mdaatForm" class="lg:col-span-8 space-y-10">
+        <form id="fullMdaatForm" class="grid grid-cols-1 lg:grid-cols-12 gap-8">
+            <div class="lg:col-span-8 space-y-2">
                 
-                <div class="domain-section bg-white p-6 rounded-2xl shadow-sm" id="sec-const">
-                    <div class="flex justify-between items-start mb-6">
-                        <div>
-                            <h2 class="text-xl font-bold">1. Constitutional</h2>
-                            <p class="text-[10px] text-slate-400">Items 1-3 </p>
-                        </div>
-                        <div class="text-right">
-                            <span id="mitax-const" class="text-xs font-black px-2 py-1 rounded bg-slate-100 uppercase">Cat E</span>
-                        </div>
+                <div class="domain-card" id="sec-const">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-lg font-bold">1. Constitutional</h2>
+                        <span id="badge-const" class="text-[10px] font-black px-2 py-1 rounded bg-slate-100">Cat E (0)</span>
                     </div>
                     <div class="mb-6">
-                        <label class="text-[10px] uppercase font-bold text-slate-400">VAS Score (0-10cm) [cite: 59]</label>
-                        <input type="range" name="vas_const" min="0" max="10" step="0.1" value="0" class="vas-slider mt-2" oninput="updateVasDisplay(this)">
-                        <div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="val-vas_const">0.0 cm</span><span>Maximum</span></div>
+                        <label class="vas-label">System VAS (0-10cm)</label>
+                        <input type="range" name="vas_const" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="upv(this)">
+                        <div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="v-vas_const">0.0 cm</span><span>Max</span></div>
                     </div>
-                    <div class="space-y-1">
-                        <div class="item-row"><span class="item-name">1. Pyrexia (Fever >38°C)</span><select name="i1" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
-                        <div class="item-row"><span class="item-name">2. Weight loss (unintentional >5%)</span><select name="i2" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">3. Fatigue / Malaise / Lethargy</span><select name="i3" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                    </div>
+                    <div class="item-row"><span class="item-label">1. Pyrexia (&gt;38°C)</span><select name="i1" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                    <div class="item-row"><span class="item-label">2. Unintentional weight loss (&gt;5%)</span><select name="i2" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">3. Fatigue / Malaise / Lethargy</span><select name="i3" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
                 </div>
 
-                <div class="domain-section bg-white p-6 rounded-2xl shadow-sm" id="sec-cut">
-                    <div class="flex justify-between items-start mb-6">
-                        <div><h2 class="text-xl font-bold">2. Cutaneous</h2><p class="text-[10px] text-slate-400">Items 4-12 </p></div>
-                        <span id="mitax-cut" class="text-xs font-black px-2 py-1 rounded bg-slate-100 uppercase">Cat E</span>
+                <div class="domain-card" id="sec-cut">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-lg font-bold">2. Cutaneous</h2>
+                        <span id="badge-cut" class="text-[10px] font-black px-2 py-1 rounded bg-slate-100">Cat E (0)</span>
                     </div>
                     <div class="mb-6">
-                        <label class="text-[10px] uppercase font-bold text-slate-400 text-center block">VAS Score (0-10cm)</label>
-                        <input type="range" name="vas_cut" min="0" max="10" step="0.1" value="0" class="vas-slider mt-2" oninput="updateVasDisplay(this)">
-                        <div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="val-vas_cut">0.0 cm</span><span>Max</span></div>
+                        <label class="vas-label">System VAS (0-10cm)</label>
+                        <input type="range" name="vas_cut" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="upv(this)">
+                        <div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="v-vas_cut">0.0 cm</span><span>Max</span></div>
                     </div>
                     <div class="grid grid-cols-1 md:grid-cols-2 gap-x-6">
-                        <div class="item-row"><span class="item-name">4. Cutaneous ulceration</span><select name="i4" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
-                        <div class="item-row"><span class="item-name">5. Erythroderma</span><select name="i5" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">6. Panniculitis</span><select name="i6" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">7a. Rashes w/ secondary changes</span><select name="i7a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">7b. Rashes w/o secondary changes</span><select name="i7b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">8. Heliotrope rash</span><select name="i8" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">9. Gottron's papules/sign</span><select name="i9" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">11a. Alopecia (Diffuse)</span><select name="i11a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">11b. Alopecia (Focal)</span><select name="i11b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">12. Mechanic's hands</span><select name="i12" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">4. Cutaneous ulceration</span><select name="i4" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                        <div class="item-row"><span class="item-label">5. Erythroderma</span><select name="i5" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">6. Panniculitis</span><select name="i6" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">7a. Rashes (sec. changes)</span><select name="i7a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">7b. Rashes (no sec. changes)</span><select name="i7b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">8. Heliotrope rash</span><select name="i8" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">9. Gottron's papules/sign</span><select name="i9" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">10. Periungual capillaries</span><select name="i10" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">11a. Alopecia (Diffuse)</span><select name="i11a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">11b. Alopecia (Focal)</span><select name="i11b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row md:col-span-2"><span class="item-label">12. Mechanic's hands</span><select name="i12" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
                     </div>
                 </div>
 
-                <div class="domain-section bg-white p-6 rounded-2xl shadow-sm border-slate-900 border-l-8" id="sec-mus">
-                    <div class="flex justify-between items-start mb-6">
-                        <div><h2 class="text-xl font-bold italic">7. Muscle</h2><p class="text-[10px] text-slate-400">Items 25-26 [cite: 154-160]</p></div>
-                        <span id="mitax-mus" class="text-xs font-black px-2 py-1 rounded bg-slate-100 uppercase">Cat E</span>
+                <div class="domain-card" id="sec-skel">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-lg font-bold">3. Skeletal</h2>
+                        <span id="badge-skel" class="text-[10px] font-black px-2 py-1 rounded bg-slate-100">Cat E (0)</span>
                     </div>
-                    <div class="mb-6 bg-slate-50 p-4 rounded-xl">
-                        <label class="text-[10px] uppercase font-bold text-slate-400 block mb-2">Muscle Global Assessment (VAS)</label>
-                        <input type="range" name="vas_mus" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="updateVasDisplay(this)">
-                        <div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>No activity</span><span id="val-vas_mus">0.0 cm</span><span>Max activity</span></div>
+                    <div class="mb-6"><label class="vas-label">System VAS</label><input type="range" name="vas_skel" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="upv(this)"><div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="v-vas_skel">0.0 cm</span><span>Max</span></div></div>
+                    <div class="item-row"><span class="item-label">13a. Severe arthritis</span><select name="i13a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                    <div class="item-row"><span class="item-label">13b. Moderate arthritis</span><select name="i13b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">13c. Mild arthritis</span><select name="i13c" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">14. Arthralgia</span><select name="i14" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                </div>
+
+                <div class="domain-card" id="sec-gi">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-lg font-bold">4. Gastrointestinal</h2>
+                        <span id="badge-gi" class="text-[10px] font-black px-2 py-1 rounded bg-slate-100">Cat E (0)</span>
                     </div>
+                    <div class="mb-6"><label class="vas-label">System VAS</label><input type="range" name="vas_gi" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="upv(this)"><div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="v-vas_gi">0.0 cm</span><span>Max</span></div></div>
+                    <div class="item-row"><span class="item-label">15a. Mod/Severe dysphagia</span><select name="i15a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                    <div class="item-row"><span class="item-label">15b. Mild dysphagia</span><select name="i15b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">16a. Severe abdominal pain</span><select name="i16a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">16b. Moderate abdominal pain</span><select name="i16b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">16c. Mild abdominal pain</span><select name="i16c" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                </div>
+
+                <div class="domain-card" id="sec-pulm">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-lg font-bold">5. Pulmonary</h2>
+                        <span id="badge-pulm" class="text-[10px] font-black px-2 py-1 rounded bg-slate-100">Cat E (0)</span>
+                    </div>
+                    <div class="mb-6"><label class="vas-label">System VAS</label><input type="range" name="vas_pulm" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="upv(this)"><div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="v-vas_pulm">0.0 cm</span><span>Max</span></div></div>
                     <div class="space-y-1">
-                        <div class="item-row"><span class="item-name">25a. Severe muscle inflammation</span><select name="i25a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
-                        <div class="item-row"><span class="item-name">25b. Moderate muscle inflammation</span><select name="i25b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">25c. Mild muscle inflammation</span><select name="i25c" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
-                        <div class="item-row"><span class="item-name">26. Myalgia</span><select name="i26" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <p class="text-[9px] text-blue-500 font-bold mb-2">Respiratory Muscle Weakness (No ILD):</p>
+                        <div class="item-row"><span class="item-label">17a. Dyspnea at rest</span><select name="i17a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                        <div class="item-row"><span class="item-label">17b. Dyspnea on exertion</span><select name="i17b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <p class="text-[9px] text-blue-500 font-bold mt-4 mb-2">Active Reversible ILD (score a,b,c):</p>
+                        <div class="item-row"><span class="item-label">18a. Dyspnea/Cough due to ILD</span><select name="i18a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">18b. Imaging (CXR/HRCT) abnormalities</span><select name="i18b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">18c. PFTs (&ge;10% FVC or &ge;15% DLCO change)</span><select name="i18c" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <p class="text-[9px] text-blue-500 font-bold mt-4 mb-2">Dysphonia:</p>
+                        <div class="item-row"><span class="item-label">19a. Moderate to severe</span><select name="i19a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                        <div class="item-row"><span class="item-label">19b. Mild</span><select name="i19b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
                     </div>
                 </div>
 
-                <div class="p-4 bg-yellow-50 border border-yellow-200 rounded-xl text-[10px] text-yellow-700">
-                    * 이 계산기는 MDAAT 2005 버전의 모든 항목을 기반으로 하며, MITAX 2009의 시스템별 가중치(9, 3, 1, 0)를 사용하여 요약 점수를 도출합니다. [cite: 38, 43-44]
+                <div class="domain-card" id="sec-cardiac">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-lg font-bold">6. Cardiovascular</h2>
+                        <span id="badge-cardiac" class="text-[10px] font-black px-2 py-1 rounded bg-slate-100">Cat E (0)</span>
+                    </div>
+                    <div class="mb-6"><label class="vas-label">System VAS</label><input type="range" name="vas_cardiac" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="upv(this)"><div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="v-vas_cardiac">0.0 cm</span><span>Max</span></div></div>
+                    <div class="item-row"><span class="item-label">20. Pericarditis</span><select name="i20" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                    <div class="item-row"><span class="item-label">21. Myocarditis</span><select name="i21" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">22a. Severe arrhythmia</span><select name="i22a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">22b. Other arrhythmia (not Sinus Tach)</span><select name="i22b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">23. Sinus tachycardia</span><select name="i23" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
                 </div>
-            </form>
 
-            <div class="lg:col-span-4">
-                <div class="sticky top-8 space-y-6">
-                    <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl overflow-hidden relative">
-                        <div class="relative z-10">
-                            <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Total MITAX Score</h3>
-                            <div id="totalScore" class="text-7xl font-black italic">0</div>
-                            <div class="mt-4 pt-4 border-t border-slate-700 flex justify-between items-end">
-                                <div>
-                                    <p class="text-[10px] text-slate-500 uppercase">Activity Level</p>
-                                    <p id="activityLevel" class="text-sm font-bold text-blue-400">Inactive</p>
-                                </div>
-                                <div class="text-right">
-                                    <p class="text-[10px] text-slate-500 uppercase">Max Possible</p>
-                                    <p id="maxPossible" class="text-sm font-bold">63</p>
-                                </div>
-                            </div>
-                        </div>
+                <div class="domain-card" id="sec-mus">
+                    <div class="flex justify-between items-start mb-4">
+                        <h2 class="text-lg font-bold italic underline">7. Muscle Disease</h2>
+                        <span id="badge-mus" class="text-[10px] font-black px-2 py-1 rounded bg-slate-100">Cat E (0)</span>
                     </div>
-
-                    <div class="bg-white p-6 rounded-2xl shadow-sm border border-slate-200">
-                        <h4 class="text-xs font-bold text-slate-400 uppercase mb-4">MITAX Domain Summary</h4>
-                        <ul id="mitaxSummary" class="space-y-3 text-sm">
-                            </ul>
-                    </div>
+                    <div class="mb-6"><label class="vas-label">Muscle VAS</label><input type="range" name="vas_mus" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="upv(this)"><div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="v-vas_mus">0.0 cm</span><span>Max</span></div></div>
+                    <div class="item-row"><span class="item-label">25a. Severe muscle inflammation</span><select name="i25a" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option><option value="NA">NA</option></select></div>
+                    <div class="item-row"><span class="item-label">25b. Moderate muscle inflammation</span><select name="i25b" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">25c. Mild muscle inflammation</span><select name="i25c" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                    <div class="item-row"><span class="item-label">26. Myalgia</span><select name="i26" onchange="calc()"><option value="0">0</option><option value="1">1</option><option value="2">2</option><option value="3">3</option><option value="4">4</option></select></div>
+                </div>
+                
+                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                    <div class="bg-white p-4 rounded-xl border"><label class="vas-label">Extramuscular Global VAS</label><input type="range" name="vas_extra" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="upv(this)"><div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="v-vas_extra">0.0 cm</span><span>Max</span></div></div>
+                    <div class="bg-white p-4 rounded-xl border"><label class="vas-label">Global Disease Activity VAS</label><input type="range" name="vas_global" min="0" max="10" step="0.1" value="0" class="vas-slider" oninput="upv(this)"><div class="flex justify-between text-[9px] mt-1 text-slate-400"><span>Absent</span><span id="v-vas_global">0.0 cm</span><span>Max</span></div></div>
                 </div>
             </div>
-        </div>
+
+            <div class="lg:col-span-4">
+                <div class="sticky top-8 space-y-4">
+                    <div class="bg-slate-900 text-white p-8 rounded-3xl shadow-2xl">
+                        <h3 class="text-xs font-bold text-slate-400 uppercase tracking-widest mb-2">Total MITAX Score</h3>
+                        <div id="totalScore" class="text-7xl font-black italic">0</div>
+                        <div class="mt-4 pt-4 border-t border-slate-700 flex justify-between">
+                            <div><p class="text-[10px] text-slate-500">Max Possible</p><p id="maxPossible" class="text-sm font-bold">63</p></div>
+                            <div class="text-right"><p class="text-[10px] text-slate-500">Activity %</p><p id="activityRatio" class="text-sm font-bold text-blue-400">0.0%</p></div>
+                        </div>
+                    </div>
+                    <div class="bg-white p-6 rounded-2xl border shadow-sm"><h4 class="text-xs font-bold text-slate-400 uppercase mb-4">Summary Breakdown</h4><ul id="summaryList" class="space-y-2 text-xs"></ul></div>
+                </div>
+            </div>
+        </form>
     </div>
 
     <script>
-        function updateVasDisplay(el) {
-            document.getElementById('val-' + el.name).innerText = parseFloat(el.value).toFixed(1) + ' cm';
-        }
+        function upv(el) { document.getElementById('v-' + el.name).innerText = parseFloat(el.value).toFixed(1) + ' cm'; }
 
         function calc() {
-            const fd = new FormData(document.getElementById('mdaatForm'));
-            let totalMitax = 0;
-            let assessedCount = 0;
-            const domainResults = [];
+            const fd = new FormData(document.getElementById('fullMdaatForm'));
+            let total = 0, assessedDomains = 0;
+            const res = [];
 
-            // --- 1. Constitutional Logic  ---
-            const i1 = fd.get('i1'); 
-            const i2 = fd.get('i2'); 
-            const i3 = fd.get('i3');
-            let c_pts = 0, c_cat = 'E';
-            if(i1 !== 'NA') {
-                assessedCount++;
-                if(i1 >= 2 && (i2 >= 1 && i3 >= 1)) { c_cat = 'A'; c_pts = 9; }
-                else if(i1 >= 2 || i2 >= 2 || i3 >= 2) { c_cat = 'B'; c_pts = 3; }
-                else if(i1 == 1 || i2 == 1 || i3 == 1) { c_cat = 'C'; c_pts = 1; }
-                totalMitax += c_pts;
-            } else c_pts = 'NA';
-            domainResults.push({name: 'Constitutional', cat: c_cat, pts: c_pts, id: 'const'});
+            // 1. Constitutional 
+            const c1 = fd.get('i1'), c2 = fd.get('i2'), c3 = fd.get('i3');
+            if(c1 !== 'NA') { assessedDomains++; let pts=0, cat='E';
+                if(c1 >= 2 && c2 >= 1 && c3 >= 1) { cat='A'; pts=9; }
+                else if(c1 >= 2 || c2 >= 2 || c3 >= 2) { cat='B'; pts=3; }
+                else if(c1 == 1 || c2 == 1 || c3 == 1) { cat='C'; pts=1; }
+                total += pts; res.push({n:'Constitutional', c:cat, p:pts, id:'const'});
+            }
 
-            // --- 2. Cutaneous Logic  ---
-            const cu_maj = [fd.get('i4'), fd.get('i5'), fd.get('i6'), fd.get('i7a')];
-            const cu_min = [fd.get('i7b'), fd.get('i8'), fd.get('i9'), fd.get('i11a'), fd.get('i12')];
-            const cu_foc = fd.get('i11b');
-            let cu_pts = 0, cu_cat = 'E';
-            if(fd.get('i4') !== 'NA') {
-                assessedCount++;
-                if(cu_maj.some(v => v >= 2)) { cu_cat = 'A'; cu_pts = 9; }
-                else if(cu_maj.some(v => v == 1) || cu_min.some(v => v >= 2)) { cu_cat = 'B'; cu_pts = 3; }
-                else if(cu_min.some(v => v == 1) || cu_foc >= 1) { cu_cat = 'C'; cu_pts = 1; }
-                totalMitax += cu_pts;
-            } else cu_pts = 'NA';
-            domainResults.push({name: 'Cutaneous', cat: cu_cat, pts: cu_pts, id: 'cut'});
+            // 2. Cutaneous 
+            const cuMaj = [fd.get('i4'), fd.get('i5'), fd.get('i7a'), fd.get('i6')];
+            const cuMin = [fd.get('i7b'), fd.get('i8'), fd.get('i9'), fd.get('i10'), fd.get('i11a'), fd.get('i12')];
+            const cuFoc = fd.get('i11b');
+            if(fd.get('i4') !== 'NA') { assessedDomains++; let pts=0, cat='E';
+                if(cuMaj.some(v => v >= 2)) { cat='A'; pts=9; }
+                else if(cuMaj.some(v => v == 1) || cuMin.some(v => v >= 2)) { cat='B'; pts=3; }
+                else if(cuMin.some(v => v == 1) || cuFoc >= 1) { cat='C'; pts=1; }
+                total += pts; res.push({n:'Cutaneous', c:cat, p:pts, id:'cut'});
+            }
 
-            // --- 7. Muscle Logic  ---
-            const m_sev = fd.get('i25a');
-            const m_mod = fd.get('i25b');
-            const m_mid = fd.get('i25c');
-            const m_alg = fd.get('i26');
-            let mu_pts = 0, mu_cat = 'E';
-            if(m_sev !== 'NA') {
-                assessedCount++;
-                if(m_sev >= 2) { mu_cat = 'A'; mu_pts = 9; }
-                else if(m_sev == 1 || m_mod >= 2) { mu_cat = 'B'; mu_pts = 3; }
-                else if(m_mod == 1 || m_mid >= 1 || m_alg >= 1) { mu_cat = 'C'; mu_pts = 1; }
-                totalMitax += mu_pts;
-            } else mu_pts = 'NA';
-            domainResults.push({name: 'Muscle', cat: mu_cat, pts: mu_pts, id: 'mus'});
+            // 3. Skeletal 
+            const sSev = fd.get('i13a'), sMod = fd.get('i13b'), sMil = fd.get('i13c'), sArt = fd.get('i14');
+            if(sSev !== 'NA') { assessedDomains++; let pts=0, cat='E';
+                if(sSev >= 2) { cat='A'; pts=9; }
+                else if(sSev == 1 || sMod >= 2) { cat='B'; pts=3; }
+                else if(sMod == 1 || sMil >= 1 || sArt >= 1) { cat='C'; pts=1; }
+                total += pts; res.push({n:'Skeletal', c:cat, p:pts, id:'skel'});
+            }
 
-            // Update UI
-            document.getElementById('totalScore').innerText = totalMitax;
-            document.getElementById('maxPossible').innerText = assessedCount * 9;
-            document.getElementById('activityLevel').innerText = totalMitax >= 9 ? 'Highly Active' : (totalMitax > 0 ? 'Active' : 'Inactive');
+            // 4. GI 
+            const gSev = fd.get('i15a'), gPSev = fd.get('i16a'), gMod = fd.get('i16b'), gMilD = fd.get('i15b'), gMilP = fd.get('i16c');
+            if(gSev !== 'NA') { assessedDomains++; let pts=0, cat='E';
+                if(gSev >= 2 || gPSev >= 2) { cat='A'; pts=9; }
+                else if(gSev == 1 || gPSev == 1 || gMod >= 2 || gMilD >= 2) { cat='B'; pts=3; }
+                else if(gMod == 1 || gMilD == 1 || gMilP >= 1) { cat='C'; pts=1; }
+                total += pts; res.push({n:'GI', c:cat, p:pts, id:'gi'});
+            }
+
+            // 5. Pulmonary 
+            const pRest = fd.get('i17a'), pEx = fd.get('i17b'), pIlda = fd.get('i18a'), pIldb = fd.get('i18b'), pIldc = fd.get('i18c'), pD1 = fd.get('i19a'), pD2 = fd.get('i19b');
+            if(pRest !== 'NA') { assessedDomains++; let pts=0, cat='E';
+                const ildA = [pIlda, pIldb, pIldc].filter(v => v >= 3).length >= 2;
+                const ildB = [pIlda, pIldb, pIldc].filter(v => v == 2).length >= 2;
+                const ildC = [pIlda, pIldb, pIldc].filter(v => v == 1).length >= 2;
+                if(pRest >= 2 || ildA) { cat='A'; pts=9; }
+                else if(pRest == 1 || pEx >= 2 || ildB || pD1 >= 2) { cat='B'; pts=3; }
+                else if(pEx == 1 || ildC || pD1 == 1 || pD2 >= 1) { cat='C'; pts=1; }
+                total += pts; res.push({n:'Pulmonary', c:cat, p:pts, id:'pulm'});
+            }
+
+            // 6. Cardiac 
+            const cvP = fd.get('i20'), cvM = fd.get('i21'), cvS = fd.get('i22a'), cvO = fd.get('i22b'), cvT = fd.get('i23');
+            if(cvP !== 'NA') { assessedDomains++; let pts=0, cat='E';
+                if(cvP >= 2 || cvM >= 2 || cvS >= 2) { cat='A'; pts=9; }
+                else if(cvP == 1 || cvM == 1 || cvS == 1 || cvO >= 2) { cat='B'; pts=3; }
+                else if(cvO == 1 || cvT >= 1) { cat='C'; pts=1; }
+                total += pts; res.push({n:'Cardiac', c:cat, p:pts, id:'cardiac'});
+            }
+
+            // 7. Muscle 
+            const mS = fd.get('i25a'), mM = fd.get('i25b'), mL = fd.get('i25c'), mA = fd.get('i26');
+            if(mS !== 'NA') { assessedDomains++; let pts=0, cat='E';
+                if(mS >= 2) { cat='A'; pts=9; }
+                else if(mS == 1 || mM >= 2) { cat='B'; pts=3; }
+                else if(mM == 1 || mL >= 1 || mA >= 1) { cat='C'; pts=1; }
+                total += pts; res.push({n:'Muscle', c:cat, p:pts, id:'mus'});
+            }
+
+            // Update DOM
+            document.getElementById('totalScore').innerText = total;
+            document.getElementById('maxPossible').innerText = assessedDomains * 9;
+            document.getElementById('activityRatio').innerText = assessedDomains > 0 ? ((total/(assessedDomains*9))*100).toFixed(1) + '%' : '0.0%';
             
-            const summaryList = document.getElementById('mitaxSummary');
-            summaryList.innerHTML = '';
-            domainResults.forEach(res => {
-                const badge = document.getElementById('mitax-' + res.id);
-                const sec = document.getElementById('sec-' + res.id);
-                badge.innerText = 'Cat ' + res.cat + (res.pts === 'NA' ? '' : ` (${res.pts}p)`);
-                sec.className = `domain-section bg-white p-6 rounded-2xl shadow-sm cat-${res.cat.toLowerCase()}`;
-                
-                summaryList.innerHTML += `<li class="flex justify-between items-center">
-                    <span class="text-slate-600">${res.name}</span>
-                    <span class="font-bold ${res.pts >= 9 ? 'text-red-500' : 'text-slate-800'}">Cat ${res.cat}</span>
-                </li>`;
+            const listEl = document.getElementById('summaryList'); listEl.innerHTML = '';
+            res.forEach(r => {
+                const badge = document.getElementById('badge-' + r.id);
+                badge.innerText = `Cat ${r.c} (${r.p}p)`;
+                const sec = document.getElementById('sec-' + r.id);
+                sec.className = `domain-card cat-${r.c.toLowerCase()}`;
+                listEl.innerHTML += `<li class="flex justify-between"><span>${r.n}:</span><span class="font-bold">Cat ${r.c}</span></li>`;
             });
         }
-
-        calc();
+        window.onload = calc;
     </script>
 </body>
 </html>
